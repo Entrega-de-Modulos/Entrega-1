@@ -31,6 +31,8 @@ public class PessoaRepositoryImpl implements PessoaRepository {
 
     @Override
     public List<Pessoa> obterPaginado(int pagina, int tamanho) {
-        return List.of();
+        var pageable = org.springframework.data.domain.PageRequest.of(pagina - 1, tamanho);
+        var page = pessoaRepositoryOrm.findAll(pageable);
+        return page.map(pessoaAdapter::toEntidade).getContent();
     }
 }
